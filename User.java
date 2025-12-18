@@ -1,4 +1,4 @@
-public abstract class User {
+public class User {
     protected String id;
     protected String nama;
     protected String email;
@@ -18,4 +18,4 @@ public abstract class User {
     public void logout() {
         System.out.println("User berhasil logout");
     }
-}
+} 
