@@ -15,11 +15,7 @@ public abstract class User {
         return this.email.equals(email) && this.password.equals(password);
     }
 
-    public String getNama() {
-        return nama;
+    public void logout() {
+        System.out.println("User berhasil logout");
     }
-
-    public abstract void menu();
 }
-
-
