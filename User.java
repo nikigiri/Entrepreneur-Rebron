@@ -18,4 +18,4 @@ public class User {
     public void logout() {
         System.out.println("User berhasil logout");
     }
-} 
+}

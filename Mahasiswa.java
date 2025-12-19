@@ -6,11 +6,12 @@ public class Mahasiswa extends User {
         super(id, nama, email, password);
         this.Fakultas = Fakultas;
         this.programStudi = programStudi;
-    }   
+    }
+
     public void daftarEvent(Event e) {
         if (e.cekKuota()) {
-            System.out.println("berhasil mendaftar Event: " + e.getNamaEvent()  );
-            e.kurangiKuota();   
+            System.out.println("berhasil mendaftar Event: " + e.getNamaEvent());
+            e.kurangiKuota();
         } else {
             System.out.println("Gagal mendaftar, kuota Event penuh");
         }
