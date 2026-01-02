@@ -4,7 +4,7 @@ public class Admin extends User {
         super(id, nama, email, password);
     }
     public void verifikasiEvent(Event e) {
-        e.verifikasi(); // <<< INI YANG PENTING
+        e.verifikasi(); 
         System.out.println("Event " + e.getNamaEvent() + " berhasil diverifikasi");
     }
 }

@@ -96,9 +96,10 @@ else if (panitia.login(email, pass)) {
         System.out.println("\n--- MENU PANITIA ---");
         System.out.println("1. Tambah Event");
         System.out.println("2. Lihat Event");
-        System.out.println("3. Hapus Event");
-        System.out.println("4. Verifikasi Pembayaran");
-        System.out.println("5. Logout");
+        System.err.println("3. Ubah Event");
+        System.out.println("4. Hapus Event");
+        System.out.println("5. Verifikasi Pembayaran");
+        System.out.println("6. Logout");
         System.out.print("Pilih: ");
         pilihan = input.nextInt();
         input.nextLine();
@@ -141,7 +142,51 @@ else if (panitia.login(email, pass)) {
                 break;
 
             case 3: 
-                System.out.print("Masukkan ID Event yang akan dihapus: ");
+    System.out.print("Masukkan ID Event yang akan diubah: ");
+    String idUbah = input.nextLine();
+
+    boolean ketemuUbah = false;
+
+    for (Event e : daftarEvent) {
+        if (e.getIdEvent().equals(idUbah)) {
+            ketemuUbah = true;
+
+            if (e.isTerverifikasi()) {
+                System.out.println("Event sudah diverifikasi, tidak bisa diubah");
+                break;
+            }
+
+            System.out.print("Nama Event Baru: ");
+            String namaBaru = input.nextLine();
+
+            System.out.print("Lokasi Baru: ");
+            String lokasiBaru = input.nextLine();
+
+            System.out.print("Deskripsi Baru: ");
+            String deskBaru = input.nextLine();
+
+            System.out.print("Kuota Baru: ");
+            int kuotaBaru = input.nextInt();
+            input.nextLine();
+
+            e.setNamaEvent(namaBaru);
+            e.setLokasi(lokasiBaru);
+            e.setDeskripsi(deskBaru);
+            e.setKuota(kuotaBaru);
+
+            System.out.println("Event berhasil diubah");
+            break;
+        }
+    }
+
+    if (!ketemuUbah) {
+        System.out.println("Event tidak ditemukan");
+    }
+    break;
+
+
+            case 4: 
+               System.out.print("Masukkan ID Event yang akan dihapus: ");
                 String idHapus = input.nextLine();
 
                 boolean ditemukan = false;
@@ -164,8 +209,8 @@ else if (panitia.login(email, pass)) {
                 }
                 break;
 
-            case 4: 
-                if (daftarPembayaran.isEmpty()) {
+            case 5:
+               if (daftarPembayaran.isEmpty()) {
                     System.out.println("Belum ada pembayaran");
                     break;
                 }
@@ -201,8 +246,7 @@ else if (panitia.login(email, pass)) {
                     System.out.println("ID Pembayaran tidak ditemukan");
                 }
                 break;
-
-            case 5:
+            case 6:
                 panitia.logout();
                 break;
 
@@ -307,7 +351,7 @@ else if (panitia.login(email, pass)) {
                         default:
                             System.out.println("Pilihan tidak valid");
                     }
-                } while (pilihan != 5);
+                } while (pilihan != 6);
             }
 
             else {
