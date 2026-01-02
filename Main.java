@@ -85,7 +85,7 @@ public class Main {
                         default:
                             System.out.println("Pilihan tidak valid");
                     }
-                } while (pilihan != 2);
+                } while (pilihan != 3);
             }
 
             // ================= PANITIA =================
