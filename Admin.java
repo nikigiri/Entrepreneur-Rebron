@@ -17,6 +17,7 @@ public class Admin extends User {
     }
 
     public void verifikasiEvent(Event e) {
-        System.out.println("Event " + e.getNamaEvent() + " diverifikasi oleh Admin");
+        e.verifikasi(); // <<< INI YANG PENTING
+        System.out.println("Event " + e.getNamaEvent() + " berhasil diverifikasi");
     }
 }

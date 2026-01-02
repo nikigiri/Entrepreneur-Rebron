@@ -8,23 +8,19 @@ public class Main {
         Scanner input = new Scanner(System.in);
         boolean jalan = true;
 
-        //DATA USER 
+        // ================= DATA USER =================
         Admin admin = new Admin("A01", "Admin", "admin@mail.com", "admin");
+        Panitia panitia = new Panitia("P01", "Andre", "panitia@mail.com", "123", "Ketua");
+        Mahasiswa mhs = new Mahasiswa("M01", "Muthia", "mhs@mail.com", "123", "Informatika", "D3IF");
 
-        Panitia panitia = new Panitia(
-                "P01", "Andre", "panitia@mail.com", "123", "Ketua");
-
-        Mahasiswa mhs = new Mahasiswa(
-                "M01", "Muthia", "mhs@mail.com", "123",
-                "Informatika", "D3IF");
-
-        //DATA EVENT & PEMBAYARAN
+        // ================= DATA SISTEM =================
         ArrayList<Event> daftarEvent = new ArrayList<>();
+        ArrayList<Pendaftaran> daftarPendaftaran = new ArrayList<>();
         ArrayList<Pembayaran> daftarPembayaran = new ArrayList<>();
 
-        //LOOP PROGRAM  
+        // ================= LOOP PROGRAM =================
         while (jalan) {
-            System.out.println("\n--- TELU EVENT ---");
+            System.out.println("\n=== TELU EVENT ===");
             System.out.println("1. Login");
             System.out.println("2. Keluar");
             System.out.print("Pilih: ");
@@ -36,7 +32,6 @@ public class Main {
                 break;
             }
 
-            //LOGIN 
             System.out.print("Email: ");
             String email = input.nextLine();
             System.out.print("Password: ");
@@ -44,14 +39,15 @@ public class Main {
 
             int pilihan;
 
-            //ADMIN 
+            // ================= ADMIN =================
             if (admin.login(email, pass)) {
                 System.out.println("Login Admin berhasil");
 
                 do {
                     System.out.println("\n--- MENU ADMIN ---");
                     System.out.println("1. Lihat Event");
-                    System.out.println("2. Logout");
+                    System.out.println("2. Verifikasi Event");
+                    System.out.println("3. Logout");
                     System.out.print("Pilih: ");
                     pilihan = input.nextInt();
                     input.nextLine();
@@ -67,15 +63,32 @@ public class Main {
                             }
                             break;
                         case 2:
+                            System.out.print("Masukkan ID Event: ");
+                            String idEvent = input.nextLine();
+
+                            boolean ketemu = false;
+                            for (Event e : daftarEvent) {
+                                if (e.getIdEvent().equals(idEvent)) {
+                                    admin.verifikasiEvent(e);
+                                    ketemu = true;
+                                    break;
+                                }
+                            }
+
+                            if (!ketemu) {
+                                System.out.println("Event tidak ditemukan");
+                            }
+                            break;
+                        case 3:
                             admin.logout();
                             break;
                         default:
                             System.out.println("Pilihan tidak valid");
                     }
-                } while (pilihan != 2);
+                } while (pilihan != 3);
             }
 
-            //PANITIA
+            // ================= PANITIA =================
             else if (panitia.login(email, pass)) {
                 System.out.println("Login Panitia berhasil");
 
@@ -90,6 +103,7 @@ public class Main {
                     input.nextLine();
 
                     switch (pilihan) {
+
                         case 1:
                             System.out.print("ID Event: ");
                             String idEvent = input.nextLine();
@@ -103,14 +117,13 @@ public class Main {
                             int kuota = input.nextInt();
                             input.nextLine();
 
-                            Event event = new Event(
+                            daftarEvent.add(new Event(
                                     idEvent,
                                     namaEvent,
                                     LocalDate.now(),
                                     lokasi,
                                     deskripsi,
-                                    kuota);
-                            daftarEvent.add(event);
+                                    kuota));
                             System.out.println("Event berhasil ditambahkan");
                             break;
 
@@ -135,13 +148,24 @@ public class Main {
                                 p.tampilkanInfo();
                             }
 
-                            System.out.print("Masukkan ID Pembayaran: ");
-                            String idVerif = input.nextLine();
+                            System.out.print("Masukkan ID Pembayaran (0 untuk kembali): ");
+                            String idBayar = input.nextLine();
+                            if (idBayar.equals("0"))
+                                break;
 
                             boolean ketemu = false;
-                            for (Pembayaran p : daftarPembayaran) {
-                                if (p.getIdPembayaran().equals(idVerif)) {
-                                    panitia.verifikasiPembayaran(p);
+                            for (Pendaftaran d : daftarPendaftaran) {
+                                Pembayaran p = d.getPembayaran();
+                                if (p != null && p.getIdPembayaran().equals(idBayar)) {
+                                    Event e = d.getEvent();
+                                    if (e.kurangiKuota()) {
+                                        panitia.verifikasiPembayaran(p);
+                                        d.verifikasiBerhasil();
+                                        System.out.println("Pembayaran diverifikasi");
+                                        System.out.println("Sisa kuota event: " + e.getKuota());
+                                    } else {
+                                        System.out.println("Kuota event sudah habis");
+                                    }
                                     ketemu = true;
                                     break;
                                 }
@@ -162,7 +186,7 @@ public class Main {
                 } while (pilihan != 4);
             }
 
-            //MAHASISWA 
+            // ================= MAHASISWA =================
             else if (mhs.login(email, pass)) {
                 System.out.println("Login Mahasiswa berhasil");
 
@@ -171,18 +195,28 @@ public class Main {
                     System.out.println("1. Lihat Event");
                     System.out.println("2. Daftar Event");
                     System.out.println("3. Bayar Event");
-                    System.out.println("4. Logout");
+                    System.out.println("4. Cek Status Pendaftaran");
+                    System.out.println("5. Logout");
                     System.out.print("Pilih: ");
                     pilihan = input.nextInt();
                     input.nextLine();
 
                     switch (pilihan) {
+
                         case 1:
                             if (daftarEvent.isEmpty()) {
                                 System.out.println("Belum ada event");
                             } else {
+                                boolean ada = false;
                                 for (Event e : daftarEvent) {
-                                    System.out.println(e);
+                                    if (e.isTerverifikasi()) {
+                                        System.out.println(e);
+                                        ada = true;
+                                    }
+                                }
+
+                                if (!ada) {
+                                    System.out.println("Belum ada event yang terverifikasi");
                                 }
                             }
                             break;
@@ -193,44 +227,67 @@ public class Main {
 
                             for (Event e : daftarEvent) {
                                 if (e.getIdEvent().equals(idDaftar)) {
-                                    mhs.daftarEvent(e);
+                                    Pendaftaran d = new Pendaftaran(
+                                            "DFT" + System.currentTimeMillis(),
+                                            mhs,
+                                            e);
+                                    daftarPendaftaran.add(d);
+                                    System.out.println("Pendaftaran event pending, bayar tagihan terlebih dahulu");
+                                    System.out.println("ID Pendaftaran: " + d.getIdPendaftaran());
                                 }
                             }
                             break;
 
                         case 3:
-                            System.out.print("Masukkan ID Event: ");
-                            String idBayar = input.nextLine();
+                            System.out.print("Masukkan ID Pendaftaran: ");
+                            String idPend = input.nextLine();
 
-                            System.out.print("Metode Pembayaran: ");
-                            String metode = input.nextLine();
+                            for (Pendaftaran d : daftarPendaftaran) {
+                                if (d.getIdPendaftaran().equals(idPend)) {
 
-                            Pembayaran bayar = new Pembayaran(
-                                    "BY" + System.currentTimeMillis(),
-                                    idBayar,
-                                    LocalDate.now(),
-                                    50000,
-                                    metode,
-                                    "Menunggu");
-                            daftarPembayaran.add(bayar);
-                            System.out.println("Pembayaran berhasil, menunggu verifikasi");
+                                    System.out.print("Metode Pembayaran: ");
+                                    String metode = input.nextLine();
+
+                                    Pembayaran bayar = new Pembayaran(
+                                            "BY" + System.currentTimeMillis(),
+                                            idPend,
+                                            LocalDate.now(),
+                                            50000,
+                                            metode,
+                                            "MENUNGGU_VERIFIKASI");
+
+                                    d.setPembayaran(bayar);
+                                    daftarPembayaran.add(bayar);
+
+                                    System.out.println("Pembayaran berhasil");
+                                    System.out.println("ID Pembayaran: " + bayar.getIdPembayaran());
+                                }
+                            }
                             break;
 
                         case 4:
+                            System.out.println("=== STATUS PENDAFTARAN ===");
+                            for (Pendaftaran d : daftarPendaftaran) {
+                                if (d.getMahasiswa().equals(mhs)) {
+                                    d.tampilkanStatus();
+                                }
+                            }
+                            break;
+
+                        case 5:
                             mhs.logout();
                             break;
 
                         default:
                             System.out.println("Pilihan tidak valid");
                     }
-                } while (pilihan != 4);
+                } while (pilihan != 5);
             }
 
             else {
                 System.out.println("Login gagal");
             }
         }
-
         input.close();
     }
 }
