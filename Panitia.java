@@ -14,8 +14,14 @@ public class Panitia extends User {
         System.out.println("Event " + e.getNamaEvent() + " diubah");
     }
 
-    public void hapusEvent(String idEvent) {
-        System.out.println("Event dengan ID " + idEvent + " dihapus");
+    public boolean hapusEvent(Event e) {
+        if (!e.isTerverifikasi()) {
+            System.out.println("Event " + e.getNamaEvent() + " berhasil dihapus");
+            return true;
+        } else {
+            System.out.println("Event tidak bisa dihapus karena sudah diverifikasi admin");
+            return false;
+        }
     }
 
     public boolean verifikasiPembayaran(Pembayaran p) {
