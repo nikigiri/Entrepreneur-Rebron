@@ -351,7 +351,7 @@ else if (panitia.login(email, pass)) {
                         default:
                             System.out.println("Pilihan tidak valid");
                     }
-                } while (pilihan != 6);
+                } while (pilihan != 5);
             }
 
             else {
