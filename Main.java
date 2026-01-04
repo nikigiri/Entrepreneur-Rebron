@@ -253,7 +253,7 @@ else if (panitia.login(email, pass)) {
             default:
                 System.out.println("Pilihan tidak valid");
         }
-    } while (pilihan != 5);
+    } while (pilihan != 6);
 }
 
             // ================= MAHASISWA =================
