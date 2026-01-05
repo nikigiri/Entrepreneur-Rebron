@@ -7,7 +7,7 @@ public class Event {
     private String lokasi;
     private String deskripsi;
     private int kuota;
-    private boolean terverifikasi; // <<< TAMBAHAN
+    private boolean terverifikasi; 
 
     public Event(String idEvent, String namaEvent, LocalDate tanggalEvent,
             String lokasi, String deskripsi, int kuota) {
@@ -17,7 +17,7 @@ public class Event {
         this.lokasi = lokasi;
         this.deskripsi = deskripsi;
         this.kuota = kuota;
-        this.terverifikasi = false; // default
+        this.terverifikasi = false; 
     }
 
     public boolean cekKuota() {
@@ -32,7 +32,7 @@ public class Event {
         return false;
     }
 
-    // ===== VERIFIKASI EVENT =====
+  
     public void verifikasi() {
         this.terverifikasi = true;
     }

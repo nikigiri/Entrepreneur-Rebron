@@ -8,17 +8,14 @@ public class Main {
         Scanner input = new Scanner(System.in);
         boolean jalan = true;
 
-        // ================= DATA USER =================
         Admin admin = new Admin("A01", "Admin", "admin@mail.com", "admin");
-        Panitia panitia = new Panitia("P01", "Andre", "panitia@mail.com", "123", "Ketua");
+        Panitia panitia = new Panitia("P01", "Nikuy", "panitia@mail.com", "123", "Ketua");
         Mahasiswa mhs = new Mahasiswa("M01", "Muthia", "mhs@mail.com", "123", "Informatika", "D3IF");
 
-        // ================= DATA SISTEM =================
         ArrayList<Event> daftarEvent = new ArrayList<>();
         ArrayList<Pendaftaran> daftarPendaftaran = new ArrayList<>();
         ArrayList<Pembayaran> daftarPembayaran = new ArrayList<>();
 
-        // ================= LOOP PROGRAM =================
         while (jalan) {
             System.out.println("\n=== TELU EVENT ===");
             System.out.println("1. Login");
@@ -39,7 +36,6 @@ public class Main {
 
             int pilihan;
 
-            // ================= ADMIN =================
             if (admin.login(email, pass)) {
                 System.out.println("Login Admin berhasil");
 
@@ -88,7 +84,6 @@ public class Main {
                 } while (pilihan != 3);
             }
 
-            // ================= PANITIA =================
 else if (panitia.login(email, pass)) {
     System.out.println("Login Panitia berhasil");
 
@@ -142,47 +137,46 @@ else if (panitia.login(email, pass)) {
                 break;
 
             case 3: 
-    System.out.print("Masukkan ID Event yang akan diubah: ");
-    String idUbah = input.nextLine();
+                System.out.print("Masukkan ID Event yang akan diubah: ");
+                String idUbah = input.nextLine();
+                boolean ketemuUbah = false;
 
-    boolean ketemuUbah = false;
+                for (Event e : daftarEvent) {
+                 if (e.getIdEvent().equals(idUbah)) {
+                  ketemuUbah = true;
 
-    for (Event e : daftarEvent) {
-        if (e.getIdEvent().equals(idUbah)) {
-            ketemuUbah = true;
-
-            if (e.isTerverifikasi()) {
+                if (e.isTerverifikasi()) {
                 System.out.println("Event sudah diverifikasi, tidak bisa diubah");
                 break;
-            }
+              }
 
-            System.out.print("Nama Event Baru: ");
-            String namaBaru = input.nextLine();
+                 System.out.print("Nama Event Baru: ");
+                 String namaBaru = input.nextLine();
 
-            System.out.print("Lokasi Baru: ");
-            String lokasiBaru = input.nextLine();
+                 System.out.print("Lokasi Baru: ");
+                 String lokasiBaru = input.nextLine();
 
-            System.out.print("Deskripsi Baru: ");
-            String deskBaru = input.nextLine();
+                 System.out.print("Deskripsi Baru: ");
+                 String deskBaru = input.nextLine();
 
-            System.out.print("Kuota Baru: ");
-            int kuotaBaru = input.nextInt();
-            input.nextLine();
+                 System.out.print("Kuota Baru: ");
+                 int kuotaBaru = input.nextInt();
+                 input.nextLine();
 
-            e.setNamaEvent(namaBaru);
-            e.setLokasi(lokasiBaru);
-            e.setDeskripsi(deskBaru);
-            e.setKuota(kuotaBaru);
+                e.setNamaEvent(namaBaru);
+                e.setLokasi(lokasiBaru);
+                e.setDeskripsi(deskBaru);
+                e.setKuota(kuotaBaru);
 
             System.out.println("Event berhasil diubah");
             break;
         }
     }
 
-    if (!ketemuUbah) {
+       if (!ketemuUbah) {
         System.out.println("Event tidak ditemukan");
     }
-    break;
+       break;
 
 
             case 4: 
@@ -256,7 +250,6 @@ else if (panitia.login(email, pass)) {
     } while (pilihan != 6);
 }
 
-            // ================= MAHASISWA =================
             else if (mhs.login(email, pass)) {
                 System.out.println("Login Mahasiswa berhasil");
 
