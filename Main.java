@@ -308,6 +308,12 @@ else if (panitia.login(email, pass)) {
                             for (Pendaftaran d : daftarPendaftaran) {
                                 if (d.getIdPendaftaran().equals(idPend)) {
 
+                                     Event e = d.getEvent();
+                                      if (e.getKuota() <= 0) {
+                                      System.out.println("Pembayaran ditolak, kuota event sudah penuh");
+                                     break;
+                                      }
+
                                     System.out.print("Metode Pembayaran: ");
                                     String metode = input.nextLine();
 
