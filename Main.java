@@ -258,7 +258,7 @@ else if (panitia.login(email, pass)) {
                     System.out.println("1. Lihat Event");
                     System.out.println("2. Daftar Event");
                     System.out.println("3. Bayar Event");
-                    System.out.println("4. Cek Status Pendaftaran");
+                    System.out.println("4. Cek Status Pembayaran");
                     System.out.println("5. Logout");
                     System.out.print("Pilih: ");
                     pilihan = input.nextInt();
@@ -329,7 +329,7 @@ else if (panitia.login(email, pass)) {
                             break;
 
                         case 4:
-                            System.out.println("=== STATUS PENDAFTARAN ===");
+                            System.out.println("--- STATUS PEMBAYARAN ---");
                             for (Pendaftaran d : daftarPendaftaran) {
                                 if (d.getMahasiswa().equals(mhs)) {
                                     d.tampilkanStatus();

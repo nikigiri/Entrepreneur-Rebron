@@ -9,7 +9,7 @@ public class Pembayaran {
     private String statusPembayaran;
 
     public Pembayaran(String idPembayaran, String idEvent, LocalDate tanggalPembayaran, double jumlah,
-            String metodePembayaran, String statusPembayaran) {
+        String metodePembayaran, String statusPembayaran) {
         this.idPembayaran = idPembayaran;
         this.idEvent = idEvent;
         this.tanggalPembayaran = tanggalPembayaran;

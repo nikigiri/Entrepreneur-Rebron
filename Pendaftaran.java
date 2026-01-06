@@ -21,7 +21,7 @@ public class Pendaftaran {
     }
 
     public void verifikasiBerhasil() {
-        this.status = "BERHASIL";
+        this.status = "BERHASIL TERDAFTAR";
     }
 
     public String getIdPendaftaran() {
