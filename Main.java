@@ -84,171 +84,174 @@ public class Main {
                 } while (pilihan != 3);
             }
 
-else if (panitia.login(email, pass)) {
-    System.out.println("Login Panitia berhasil");
+            else if (panitia.login(email, pass)) {
+                System.out.println("Login Panitia berhasil");
 
-    do {
-        System.out.println("\n--- MENU PANITIA ---");
-        System.out.println("1. Tambah Event");
-        System.out.println("2. Lihat Event");
-        System.err.println("3. Ubah Event");
-        System.out.println("4. Hapus Event");
-        System.out.println("5. Verifikasi Pembayaran");
-        System.out.println("6. Logout");
-        System.out.print("Pilih: ");
-        pilihan = input.nextInt();
-        input.nextLine();
+                do {
+                    System.out.println("\n--- MENU PANITIA ---");
+                    System.out.println("1. Tambah Event");
+                    System.out.println("2. Lihat Event");
+                    System.err.println("3. Ubah Event");
+                    System.out.println("4. Hapus Event");
+                    System.out.println("5. Verifikasi Pembayaran");
+                    System.out.println("6. Logout");
+                    System.out.print("Pilih: ");
+                    pilihan = input.nextInt();
+                    input.nextLine();
 
-        switch (pilihan) {
+                    switch (pilihan) {
 
-            case 1:
-                System.out.print("ID Event: ");
-                String idEvent = input.nextLine();
-                System.out.print("Nama Event: ");
-                String namaEvent = input.nextLine();
-                System.out.print("Lokasi: ");
-                String lokasi = input.nextLine();
-                System.out.print("Deskripsi: ");
-                String deskripsi = input.nextLine();
-                System.out.print("Kuota: ");
-                int kuota = input.nextInt();
-                input.nextLine();
+                        case 1:
+                            System.out.print("ID Event: ");
+                            String idEvent = input.nextLine();
+                            System.out.print("Nama Event: ");
+                            String namaEvent = input.nextLine();
+                            System.out.print("Lokasi: ");
+                            String lokasi = input.nextLine();
+                            System.out.print("Deskripsi: ");
+                            String deskripsi = input.nextLine();
+                            System.out.print("Kuota: ");
+                            int kuota = input.nextInt();
+                            input.nextLine();
+                            System.out.print("Harga Event: ");
+                            int hargaEvent = input.nextInt();
 
-                Event eventBaru = new Event(
-                        idEvent,
-                        namaEvent,
-                        LocalDate.now(),
-                        lokasi,
-                        deskripsi,
-                        kuota);
+                            Event eventBaru = new Event(
+                                    idEvent,
+                                    namaEvent,
+                                    LocalDate.now(),
+                                    lokasi,
+                                    deskripsi,
+                                    kuota,
+                                    hargaEvent);
 
-                daftarEvent.add(eventBaru);
-                panitia.tambahEvent(eventBaru);
-                break;
+                            daftarEvent.add(eventBaru);
+                            panitia.tambahEvent(eventBaru);
+                            break;
 
-            case 2:
-                if (daftarEvent.isEmpty()) {
-                    System.out.println("Belum ada event");
-                } else {
-                    for (Event e : daftarEvent) {
-                        System.out.println(e);
+                        case 2:
+                            if (daftarEvent.isEmpty()) {
+                                System.out.println("Belum ada event");
+                            } else {
+                                for (Event e : daftarEvent) {
+                                    System.out.println(e);
+                                }
+                            }
+                            break;
+
+                        case 3:
+                            System.out.print("Masukkan ID Event yang akan diubah: ");
+                            String idUbah = input.nextLine();
+                            boolean ketemuUbah = false;
+
+                            for (Event e : daftarEvent) {
+                                if (e.getIdEvent().equals(idUbah)) {
+                                    ketemuUbah = true;
+
+                                    if (e.isTerverifikasi()) {
+                                        System.out.println("Event sudah diverifikasi, tidak bisa diubah");
+                                        break;
+                                    }
+
+                                    System.out.print("Nama Event Baru: ");
+                                    String namaBaru = input.nextLine();
+
+                                    System.out.print("Lokasi Baru: ");
+                                    String lokasiBaru = input.nextLine();
+
+                                    System.out.print("Deskripsi Baru: ");
+                                    String deskBaru = input.nextLine();
+
+                                    System.out.print("Kuota Baru: ");
+                                    int kuotaBaru = input.nextInt();
+                                    input.nextLine();
+
+                                    e.setNamaEvent(namaBaru);
+                                    e.setLokasi(lokasiBaru);
+                                    e.setDeskripsi(deskBaru);
+                                    e.setKuota(kuotaBaru);
+
+                                    System.out.println("Event berhasil diubah");
+                                    break;
+                                }
+                            }
+
+                            if (!ketemuUbah) {
+                                System.out.println("Event tidak ditemukan");
+                            }
+                            break;
+
+                        case 4:
+                            System.out.print("Masukkan ID Event yang akan dihapus: ");
+                            String idHapus = input.nextLine();
+
+                            boolean ditemukan = false;
+
+                            for (int i = 0; i < daftarEvent.size(); i++) {
+                                Event e = daftarEvent.get(i);
+
+                                if (e.getIdEvent().equals(idHapus)) {
+                                    ditemukan = true;
+
+                                    if (panitia.hapusEvent(e)) {
+                                        daftarEvent.remove(i);
+                                    }
+                                    break;
+                                }
+                            }
+
+                            if (!ditemukan) {
+                                System.out.println("Event tidak ditemukan");
+                            }
+                            break;
+
+                        case 5:
+                            if (daftarPembayaran.isEmpty()) {
+                                System.out.println("Belum ada pembayaran");
+                                break;
+                            }
+
+                            System.out.println("=== DAFTAR PEMBAYARAN ===");
+                            for (Pembayaran p : daftarPembayaran) {
+                                p.tampilkanInfo();
+                            }
+
+                            System.out.print("Masukkan ID Pembayaran (0 untuk kembali): ");
+                            String idBayar = input.nextLine();
+                            if (idBayar.equals("0"))
+                                break;
+
+                            boolean ketemu = false;
+                            for (Pendaftaran d : daftarPendaftaran) {
+                                Pembayaran p = d.getPembayaran();
+                                if (p != null && p.getIdPembayaran().equals(idBayar)) {
+                                    Event e = d.getEvent();
+                                    if (e.kurangiKuota()) {
+                                        panitia.verifikasiPembayaran(p);
+                                        d.verifikasiBerhasil();
+                                        System.out.println("Pembayaran diverifikasi");
+                                        System.out.println("Sisa kuota event: " + e.getKuota());
+                                    } else {
+                                        System.out.println("Kuota event sudah habis");
+                                    }
+                                    ketemu = true;
+                                    break;
+                                }
+                            }
+
+                            if (!ketemu) {
+                                System.out.println("ID Pembayaran tidak ditemukan");
+                            }
+                            break;
+                        case 6:
+                            panitia.logout();
+                            break;
+
+                        default:
+                            System.out.println("Pilihan tidak valid");
                     }
-                }
-                break;
-
-            case 3: 
-                System.out.print("Masukkan ID Event yang akan diubah: ");
-                String idUbah = input.nextLine();
-                boolean ketemuUbah = false;
-
-                for (Event e : daftarEvent) {
-                 if (e.getIdEvent().equals(idUbah)) {
-                  ketemuUbah = true;
-
-                if (e.isTerverifikasi()) {
-                System.out.println("Event sudah diverifikasi, tidak bisa diubah");
-                break;
-              }
-
-                 System.out.print("Nama Event Baru: ");
-                 String namaBaru = input.nextLine();
-
-                 System.out.print("Lokasi Baru: ");
-                 String lokasiBaru = input.nextLine();
-
-                 System.out.print("Deskripsi Baru: ");
-                 String deskBaru = input.nextLine();
-
-                 System.out.print("Kuota Baru: ");
-                 int kuotaBaru = input.nextInt();
-                 input.nextLine();
-
-                e.setNamaEvent(namaBaru);
-                e.setLokasi(lokasiBaru);
-                e.setDeskripsi(deskBaru);
-                e.setKuota(kuotaBaru);
-
-            System.out.println("Event berhasil diubah");
-            break;
-        }
-    }
-
-       if (!ketemuUbah) {
-        System.out.println("Event tidak ditemukan");
-    }
-       break;
-
-
-            case 4: 
-               System.out.print("Masukkan ID Event yang akan dihapus: ");
-                String idHapus = input.nextLine();
-
-                boolean ditemukan = false;
-
-                for (int i = 0; i < daftarEvent.size(); i++) {
-                    Event e = daftarEvent.get(i);
-
-                    if (e.getIdEvent().equals(idHapus)) {
-                        ditemukan = true;
-
-                        if (panitia.hapusEvent(e)) {
-                            daftarEvent.remove(i);
-                        }
-                        break;
-                    }
-                }
-
-                if (!ditemukan) {
-                    System.out.println("Event tidak ditemukan");
-                }
-                break;
-
-            case 5:
-               if (daftarPembayaran.isEmpty()) {
-                    System.out.println("Belum ada pembayaran");
-                    break;
-                }
-
-                System.out.println("=== DAFTAR PEMBAYARAN ===");
-                for (Pembayaran p : daftarPembayaran) {
-                    p.tampilkanInfo();
-                }
-
-                System.out.print("Masukkan ID Pembayaran (0 untuk kembali): ");
-                String idBayar = input.nextLine();
-                if (idBayar.equals("0")) break;
-
-                boolean ketemu = false;
-                for (Pendaftaran d : daftarPendaftaran) {
-                    Pembayaran p = d.getPembayaran();
-                    if (p != null && p.getIdPembayaran().equals(idBayar)) {
-                        Event e = d.getEvent();
-                        if (e.kurangiKuota()) {
-                            panitia.verifikasiPembayaran(p);
-                            d.verifikasiBerhasil();
-                            System.out.println("Pembayaran diverifikasi");
-                            System.out.println("Sisa kuota event: " + e.getKuota());
-                        } else {
-                            System.out.println("Kuota event sudah habis");
-                        }
-                        ketemu = true;
-                        break;
-                    }
-                }
-
-                if (!ketemu) {
-                    System.out.println("ID Pembayaran tidak ditemukan");
-                }
-                break;
-            case 6:
-                panitia.logout();
-                break;
-
-            default:
-                System.out.println("Pilihan tidak valid");
-        }
-    } while (pilihan != 6);
-}
+                } while (pilihan != 6);
+            }
 
             else if (mhs.login(email, pass)) {
                 System.out.println("Login Mahasiswa berhasil");
@@ -308,11 +311,26 @@ else if (panitia.login(email, pass)) {
                             for (Pendaftaran d : daftarPendaftaran) {
                                 if (d.getIdPendaftaran().equals(idPend)) {
 
-                                     Event e = d.getEvent();
-                                      if (e.getKuota() <= 0) {
-                                      System.out.println("Pembayaran ditolak, kuota event sudah penuh");
-                                     break;
-                                      }
+                                    Event e = d.getEvent();
+
+                                    if (e.getKuota() <= 0) {
+                                        System.out.println("Pembayaran ditolak, kuota event sudah penuh");
+                                        break;
+                                    }
+
+                                    System.out.println("Harga Event: " + e.getHarga());
+
+                                    double nominal;
+                                    do {
+                                        System.out.print("Masukkan Nominal Pembayaran: ");
+                                        nominal = input.nextDouble();
+                                        input.nextLine(); // buang newline
+
+                                        if (nominal != e.getHarga()) {
+                                            System.out.println("Nominal tidak sesuai! Harga event: " + e.getHarga());
+                                            System.out.println("Silakan input ulang.");
+                                        }
+                                    } while (nominal != e.getHarga());
 
                                     System.out.print("Metode Pembayaran: ");
                                     String metode = input.nextLine();
@@ -321,9 +339,14 @@ else if (panitia.login(email, pass)) {
                                             "BY" + System.currentTimeMillis(),
                                             idPend,
                                             LocalDate.now(),
-                                            50000,
+                                            nominal,
                                             metode,
                                             "MENUNGGU_VERIFIKASI");
+
+                                    bayar.setEvent(e);
+
+                                    // validasi sekali saja
+                                    bayar.validasiHarga();
 
                                     d.setPembayaran(bayar);
                                     daftarPembayaran.add(bayar);

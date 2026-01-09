@@ -45,6 +45,7 @@ public class Pendaftaran {
                 "ID Pendaftaran : " + idPendaftaran +
                         "\nEvent          : " + event.getNamaEvent() +
                         "\nStatus         : " + status +
+                        "\nHarga           : " + event.getHarga() +
                         "\n------------------------");
     }
 }

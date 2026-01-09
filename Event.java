@@ -7,17 +7,27 @@ public class Event {
     private String lokasi;
     private String deskripsi;
     private int kuota;
-    private boolean terverifikasi; 
+    private boolean terverifikasi;
+    private int harga;
 
     public Event(String idEvent, String namaEvent, LocalDate tanggalEvent,
-            String lokasi, String deskripsi, int kuota) {
+            String lokasi, String deskripsi, int kuota, int harga) {
         this.idEvent = idEvent;
         this.namaEvent = namaEvent;
         this.tanggalEvent = tanggalEvent;
         this.lokasi = lokasi;
         this.deskripsi = deskripsi;
         this.kuota = kuota;
-        this.terverifikasi = false; 
+        this.terverifikasi = false;
+        this.harga = harga;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
     }
 
     public boolean cekKuota() {
@@ -32,7 +42,6 @@ public class Event {
         return false;
     }
 
-  
     public void verifikasi() {
         this.terverifikasi = true;
     }
@@ -52,21 +61,22 @@ public class Event {
     public int getKuota() {
         return kuota;
     }
+
     public void setNamaEvent(String namaEvent) {
-    this.namaEvent = namaEvent;
-}
+        this.namaEvent = namaEvent;
+    }
 
-public void setLokasi(String lokasi) {
-    this.lokasi = lokasi;
-}
+    public void setLokasi(String lokasi) {
+        this.lokasi = lokasi;
+    }
 
-public void setDeskripsi(String deskripsi) {
-    this.deskripsi = deskripsi;
-}
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
 
-public void setKuota(int kuota) {
-    this.kuota = kuota;
-}
+    public void setKuota(int kuota) {
+        this.kuota = kuota;
+    }
 
     @Override
     public String toString() {
@@ -76,6 +86,7 @@ public void setKuota(int kuota) {
                 "\nLokasi         : " + lokasi +
                 "\nDeskripsi      : " + deskripsi +
                 "\nKuota          : " + kuota +
+                "\nHarga Event    : " + harga +
                 "\nStatus         : " + (terverifikasi ? "TERVERIFIKASI" : "BELUM DIVERIFIKASI") +
                 "\n---------------------------";
     }
