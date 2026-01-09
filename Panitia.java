@@ -15,13 +15,8 @@ public class Panitia extends User {
     }
 
     public boolean hapusEvent(Event e) {
-        if (!e.isTerverifikasi()) {
-            System.out.println("Event " + e.getNamaEvent() + " berhasil dihapus");
-            return true;
-        } else {
-            System.out.println("Event tidak bisa dihapus karena sudah diverifikasi admin");
-            return false;
-        }
+        System.out.println("Event " + e.getNamaEvent() + " berhasil dihapus dari sistem.");
+        return true; 
     }
 
     public boolean verifikasiPembayaran(Pembayaran p) {

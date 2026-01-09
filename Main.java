@@ -181,7 +181,7 @@ public class Main {
                             }
                             break;
 
-                        case 4:
+                        case 4: 
                             System.out.print("Masukkan ID Event yang akan dihapus: ");
                             String idHapus = input.nextLine();
 
@@ -194,16 +194,25 @@ public class Main {
                                     ditemukan = true;
 
                                     if (panitia.hapusEvent(e)) {
+                                        
+                                        String idEventTarget = e.getIdEvent();
+                                        daftarPendaftaran.removeIf(pendaftaran -> 
+                                            pendaftaran.getEvent().getIdEvent().equals(idEventTarget)
+                                        );
+                                        
+                                        
                                         daftarEvent.remove(i);
+                                        
+                                        System.out.println("Sukses: Event dan seluruh pendaftaran mahasiswa di dalamnya telah dihapus.");
                                     }
                                     break;
                                 }
                             }
 
-                            if (!ditemukan) {
-                                System.out.println("Event tidak ditemukan");
-                            }
-                            break;
+                                        if (!ditemukan) {
+                                            System.out.println("Error: Event tidak ditemukan.");
+                                        }
+                                        break;
 
                         case 5:
                             if (daftarPembayaran.isEmpty()) {
