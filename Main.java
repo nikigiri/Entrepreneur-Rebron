@@ -333,7 +333,7 @@ public class Main {
                                     do {
                                         System.out.print("Masukkan Nominal Pembayaran: ");
                                         nominal = input.nextDouble();
-                                        input.nextLine(); // buang newline
+                                        input.nextLine(); 
 
                                         if (nominal != e.getHarga()) {
                                             System.out.println("Nominal tidak sesuai! Harga event: " + e.getHarga());
@@ -354,7 +354,7 @@ public class Main {
 
                                     bayar.setEvent(e);
 
-                                    // validasi sekali saja
+                                   
                                     bayar.validasiHarga();
 
                                     d.setPembayaran(bayar);

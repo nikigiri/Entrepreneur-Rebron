@@ -49,7 +49,6 @@ public class Pembayaran {
                         "\n | Metode : " + metodePembayaran +
                         "\n | Status : " + statusPembayaran);
 
-        // panggil validasi harga di sini
         validasiHarga();
     }
 
